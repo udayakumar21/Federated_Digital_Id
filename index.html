@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>FDI</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="cssFile.css">
+</head>
+
+<body>
+
+    <div class="wrapper">
+        <div class="headline">
+            <h1>Welcome</h1>
+        </div><!---SignUP -->
+        <form class="form" method="post">
+            <!-- Sign Up -->
+            <div class="signup">
+                <div class="form-group">
+                    <input type="text" placeholder="Full name" id="name" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" placeholder="Email" id="email" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" placeholder="Password" id="password" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" placeholder="Phone number" id="phone" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" placeholder="State" id="state" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" placeholder="City" id="location" required>
+                </div>
+                <button type="button" class="btn" id="signUp">SIGN UP</button>
+                <div class="account-exist">
+                    Already have an account? <a href="#" id="login">Login</a>
+                </div>
+            </div>
+            <!-- Sign In -->
+            <div class="signin">
+                <div class="form-group">
+                    <input type="email" placeholder="Email" id="emailLogin" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" placeholder="Password" id="passwordLogin" required>
+                </div>
+                <div class="forget-password">
+                    <div class="check-box">
+                        <input type="checkbox" id="checkbox">
+                        <label for="checkbox">Remember me</label>
+                    </div>
+                    <a href="#">Forget password?</a>
+                </div>
+                <button type="button" class="btn" id="loginSubmit">LOGIN</button>
+                <div class="account-exist">
+                    Create New a account? <a href="#" id="signupLogin">Signup</a>
+                </div>
+            </div>
+        </form>
+        <script type="module">
+            // Initialize Firebase
+            import { initializeApp } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-app.js";
+            import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-database.js";
+            import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-auth.js";
+
+            const firebaseConfig = {
+
+            };
+            const app = initializeApp(firebaseConfig);
+            const database = getDatabase(app);
+            const auth = getAuth();
+
+            document.getElementById("signUp").addEventListener("click", () => {
+                const name = document.getElementById("name").value;
+                const email = document.getElementById("email").value;
+                const password = document.getElementById("password").value;
+                const phone = document.getElementById("phone").value;
+                const state = document.getElementById("state").value;
+                const location = document.getElementById("location").value;
+
+                createUserWithEmailAndPassword(auth, email, password)
+                    .then((userCredential) => {
+                        const user = userCredential.user;
+                        const uid = user.uid; // Unique user ID
+
+                        // Store user details in Realtime Database under the current user's UID
+                        const userRef = ref(database, "users/" + uid);
+                        set(userRef, {
+                            name: name,
+                            email: email,
+                            phone: phone,
+                            state: state,
+                            location: location
+                        })
+                            .then(() => {
+                                alert("User created! You can now log in.");
+                                window.location.href = "index.html";
+                            })
+                            .catch((error) => {
+                                alert(error.message);
+                            });
+                    })
+                    .catch((error) => {
+                        alert(error.message);
+                    });
+            });
+
+            document.getElementById("loginSubmit").addEventListener("click", () => {
+                const email = document.getElementById("emailLogin").value;
+                const password = document.getElementById("passwordLogin").value;
+
+                signInWithEmailAndPassword(auth, email, password)
+                    .then((userCredential) => {
+                        const user = userCredential.user;
+                        alert("User logged in successfully!");
+                        window.location.href = "welcome.html";
+                    }).catch((error) => { alert(error.message); });
+            });
+
+            document.getElementById("login").addEventListener("click", () => {
+                document.querySelector(".signup").style.display = "none";
+                document.querySelector(".signin").style.display = "block";
+            });
+
+            document.getElementById("signupLogin").addEventListener("click", () => {
+                document.querySelector(".signup").style.display = "block";
+                document.querySelector(".signin").style.display = "none";
+            });
+            // document.querySelector(".forget-password a").addEventListener("click", () => {
+            //     const email = document.getElementById("emailLogin").value;
+
+            //     auth.sendPasswordResetEmail(email)
+            //         .then(() => {
+            //             alert(`Password reset email sent to ${email}!`);
+            //         })
+            //         .catch((error) => {
+            //             alert(error.message);
+            //         });
+            // });  
+        </script>
+        <script src="main.js"></script>
+</body>
+
+</html>
