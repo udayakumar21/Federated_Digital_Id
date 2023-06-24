@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BANK</title>
+    <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-storage.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../static/style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous" />
+
+    <!-- Fontawesome Icons  -->
+    <script src="https://kit.fontawesome.com/7433d3320f.js" crossorigin="anonymous"></script>
+    <style>
+        /* Add CSS styling here */
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .form-container {
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 40px;
+            background-color: #f9f9f9;
+            border: 1px solid #787878;
+            border-radius: 7px;
+        }
+
+        .form-container h3 {
+            margin-top: 0;
+        }
+
+        .form-container input[type="text"],
+        .form-container input[type="tel"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .form-container button {
+            background-color: #118cea;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .form-container button:disabled {
+            background-color: #7b7777;
+            cursor: not-allowed;
+        }
+
+        #result {
+            margin-top: 10px;
+            color: #129feb;
+        }
+
+        #details {
+            display: none;
+            margin-top: 20px;
+        }
+
+        #details h3 {
+            margin-bottom: 10px;
+        }
+
+        #details p {
+            margin: 5px 0;
+        }
+
+        #download-buttons {
+            margin-top: 20px;
+        }
+
+        #download-buttons button {
+            display: block;
+            background-color: #1089e7;
+            color: rgb(66, 62, 62);
+            padding: 10px 15px;
+            margin-bottom: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+
+
+</head>
+
+
+<body data-bs-spy="scroll" data-bs-target="#navbarSupportedContent">
+    <header>
+        <!-- Navbar Section  -->
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">Digital Savings Account</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#about">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#discover">Accounts</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#service">Loans</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="signup">Invest</a>
+                        </li>
+                    </ul>
+                    <button class="btn btn-success text-dark" type="submit">
+                        Apply Online
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+
+    </header>
+    <!--  Section  -->
+    <section id="signup" class="signup py-3">
+        <div class="row align-items-center container my-3 mx-auto">
+            <!-- Left Side Content Area  -->
+            <div class="text col-lg-6 col-md-6 col-12 pt-5 pb-5">
+                <h6>SAFE SMART & TRUSTED</h6>
+                <h2>Creating an account is extremely easy</h2>
+                <p>
+                    Unlock a full stack of digital Accounts instantly.
+                    Enjoy an unmatched online banking experience 24x7.
+                    Experience a range of world-class Payment services at ease.
+                    Power-packed Payment solutions at your fingertips.
+                </p>
+                <a href="#">Start Now</a>
+            </div>
+            <!-- Right Side Image Area  -->
+            <div class="img col-lg-6 col-md-6 col-12 pt-5 pb-5">
+                <img class="img-fluid"
+                    src="https://www.mymoneysouq.com/financial-blog/wp-content/uploads/2019/06/Open-a-bank-account-online-instantlyy-01.png" />
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- Discover Section  -->
+    <section id="discover" class="discover py-3">
+        <div class="row align-items-center container my-3 mx-auto">
+            <div class="text col-lg-6 col-md-6 col-12 pt-5 pb-5">
+                <h6>Open an Instant Save Account in just 2 Steps:</h6>
+                <h5>01. Start with your FDI ID</h5>
+                <h5>02. Authenticate your Phone number</h5>
+
+                <div class="form-container">
+                    <form id="my-form" class="my-form">
+                        <input type="text" name="generated_id" placeholder="Enter Generated ID">
+                        <button type="submit">Get Details</button>
+                    </form>
+
+                    <!-- Details -->
+                    <form id="details-form" class="details-form">
+                        <input type="tel" id="phone" name="phone" placeholder="Phone Number">
+                        <button type="button" id="send-otp">Send OTP</button><br>
+                        <input type="text" id="otp" name="otp" placeholder="Enter OTP" disabled>
+                        <button type="button" id="verify-otp" disabled>Verify OTP</button>
+                    </form>
+
+                    <div id="result"></div>
+                    <div id="details">
+                        <h3>User Details:</h3>
+                        <p>Name: <input type="text" id="name" readonly></p>
+                        <p>Email: <input type="text" id="email" readonly></p>
+                        <p>Aadhar: <input type="text" id="aadhar" readonly></p>
+                        <p>Date of Birth: <input type="text" id="dob" readonly></p>
+                        <p>PAN: <input type="text" id="pan" readonly></p>
+                        <p>Voter ID: <input type="text" id="voter" readonly></p>
+                    </div>
+
+                    <div id="download-buttons"></div>
+                </div>
+
+                <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+                <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+                <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                <script>
+                    // Your web app's Firebase configuration
+                    var firebaseConfig = {
+                        apiKey: "AIzaSyAUlGj7RTDlCJee6bjljkj8b0E19EUa6qM",
+                        authDomain: "fir-idgen-a0fa7.firebaseapp.com",
+                        databaseURL: "https://fir-idgen-a0fa7-default-rtdb.firebaseio.com",
+                        projectId: "fir-idgen-a0fa7",
+                        storageBucket: "fir-idgen-a0fa7.appspot.com",
+                        messagingSenderId: "997057711554",
+                        appId: "1:997057711554:web:2e78b86a141f56d9641a5b"
+                        // apiKey: "AIzaSyBO4f_pBBBGikQdGqlOlbVbBaPKkRuj3PA",
+                        // authDomain: "final-fdi.firebaseapp.com",
+                        // databaseURL: "https://final-fdi-default-rtdb.firebaseio.com",
+                        // projectId: "final-fdi",
+                        // storageBucket: "final-fdi.appspot.com",
+                        // messagingSenderId: "956213159213",
+                        // appId: "1:956213159213:web:c6c2b2369db796d8f1dfa4"
+                    };
+                    // Initialize Firebase
+                    firebase.initializeApp(firebaseConfig);
+
+                    $(document).ready(function () {
+                        var database = firebase.database();
+                        var storage = firebase.storage();
+                        var generatedID;
+
+                        $('#my-form').submit(function (event) {
+                            event.preventDefault();
+                            var form_data = $(this).serializeArray();
+                            generatedID = form_data[0].value;
+
+                            // Check if the entered generated ID is empty or invalid
+                            if (generatedID.length != 12) {
+                                $('#result').text('Please enter a valid generated ID!');
+                                return;
+                            }
+
+                            // Retrieve details from the database for the entered generated ID
+                            database.ref('users').orderByChild('id').equalTo(generatedID).once('value', function (snapshot) {
+                                if (snapshot.exists()) {
+                                    // If the ID exists, autofill the form with the details from the database
+                                    var details = snapshot.val()[generatedID];
+                                    $('#phone').val(details.phone);
+                                    $('#result').text('Details retrieved from Firebase for ID: ' + generatedID);
+                                } else {
+                                    $('#result').text('This generated ID does not exist in the database!');
+                                }
+                            });
+                        });
+
+                        $('#send-otp').click(function () {
+                            var phoneNumber = $('#phone').val();
+
+                            // Make an HTTP request to the Flask app endpoint for sending OTP
+                            fetch('/send-otp', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                                body: 'phone_number=' + encodeURIComponent(phoneNumber)
+                            })
+                                .then(function (response) {
+                                    if (response.ok) {
+                                        // OTP sent successfully
+                                        $('#otp').prop('disabled', false);
+                                        $('#verify-otp').prop('disabled', false);
+                                        $('#result').text('OTP sent successfully to ' + phoneNumber);
+                                    } else {
+                                        // Error sending OTP
+                                        $('#result').text('Error sending OTP. Please try again.');
+                                    }
+                                })
+                                .catch(function (error) {
+                                    // Error sending OTP
+                                    $('#result').text('Error sending OTP. Please try again.');
+                                });
+                        });
+
+                        $('#verify-otp').click(function () {
+                            var otp = $('#otp').val();
+
+                            // Make an HTTP request to the Flask app endpoint for OTP verification
+                            fetch('/verify-otp', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                                body: 'otp=' + encodeURIComponent(otp)
+                            })
+                                .then(function (response) {
+                                    if (response.ok) {
+                                        // OTP verification successful
+                                        $('#result').text('OTP verification successful.');
+
+                                        // Fetch and display additional details from Firebase
+                                        database.ref('users').orderByChild('id').equalTo(generatedID).once('value', function (snapshot) {
+                                            if (snapshot.exists()) {
+                                                var details = snapshot.val()[generatedID];
+                                                $('#name').val(details.name);
+                                                $('#email').val(details.email);
+                                                $('#aadhar').val(details.aadhar);
+                                                $('#dob').val(details.dob);
+                                                $('#pan').val(details.pan);
+                                                $('#voter').val(details.voter);
+                                                $('#details').show();
+                                            }
+                                        });
+
+                                        // Fetch documents from Firebase Storage based on the generated ID
+                                        var storageRef = storage.ref().child(generatedID);
+                                        var downloadButtonsDiv = document.getElementById("download-buttons");
+                                        downloadButtonsDiv.innerHTML = "";
+
+                                        storageRef.listAll().then(function (result) {
+                                            result.items.forEach(function (itemRef) {
+                                                console.log(itemRef.name);
+
+                                                // Create a download button for each file
+                                                var downloadButton = document.createElement("button");
+                                                downloadButton.innerHTML = "Download " + itemRef.name;
+                                                downloadButton.addEventListener("click", function () {
+                                                    itemRef.getDownloadURL().then(function (url) {
+                                                        // Redirect to the file URL to initiate download
+                                                        window.location.href = url;
+                                                    });
+                                                });
+
+                                                // Append the download button to the document
+                                                downloadButtonsDiv.appendChild(downloadButton);
+                                            });
+                                        }).catch(function (error) {
+                                            console.log(error);
+                                        });
+
+                                    } else {
+                                        // Invalid OTP
+                                        $('#result').text('Invalid OTP. Please try again.');
+                                    }
+                                })
+                                .catch(function (error) {
+                                    // Error verifying OTP
+                                    $('#result').text('Error verifying OTP. Please try again.');
+                                });
+                        });
+                    });
+                </script>
+    </section>
+
+
+    <!-- Service Section  -->
+    <section id="service" class="service py-2 pb-5">
+        <div class="col mx-auto align-items-center my-2">
+            <!-- Heading  -->
+            <div class="heading text-center pt-5">
+                <h2 class="fw-bolder pb-4 text-light">Our Service</h2>
+            </div>
+            <div class="row mx-auto justify-content-center align-items-center text-center container">
+                <!-- First Card  -->
+                <div class="card col-lg-3 col-md-3 col-12 m-2">
+                    <img class="img-fluid w-75"
+                        src="https://www.icicibank.com/content/dam/icicibank/icici-assets/personal-banking/kyc2.png" />
+                    <h5 class="fw-bold pt-4">Reduce Expenses</h5>
+                    <p>
+                        Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                        Aspernatur, at exercitationem beatae hic doloremque ea.
+                    </p>
+                </div>
+                <!-- Second Card  -->
+                <div class="card col-lg-3 col-md-3 col-12 m-2">
+                    <img class="img-fluid w-75"
+                        src="https://www.icicibank.com/content/dam/icicibank/icici-assets/personal-banking/kyc3.png" />
+                    <h5 class="fw-bold pt-4">Virtual Offices</h5>
+                    <p>
+                        Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                        Aspernatur, at exercitationem beatae hic doloremque ea.
+                    </p>
+                </div>
+                <!-- Third Card  -->
+                <div class="card col-lg-3 col-md-3 col-12 m-2">
+                    <img class="img-fluid w-75"
+                        src="https://www.icicibank.com/content/dam/icicibank/icici-assets/personal-banking/kyc1.png" />
+                    <h5 class="fw-bold pt-4">Premium Benefits</h5>
+                    <p>
+                        Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                        Aspernatur, at exercitationem beatae hic doloremque ea.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- Footer Section  -->
+    <footer class="bg-dark text-center text-white">
+        <!-- Grid container -->
+        <div class="container p-4 pb-0">
+            <!-- Section: Social media -->
+            <section class="mb-4">
+                <!-- Facebook -->
+                <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"><i
+                        class="fab fa-facebook-f"></i></a>
+
+                <!-- Twitter -->
+                <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"><i
+                        class="fab fa-twitter"></i></a>
+
+                <!-- Instagram -->
+                <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"><i
+                        class="fab fa-instagram"></i></a>
+            </section>
+            <!-- Section: Social media -->
+        </div>
+        <!-- Grid container -->
+
+        <!-- Copyright -->
+        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2)">
+            © 2022 Copyright:
+            <a class="text-white" href="https://geekyprashant.com/">DigitalSavingAccount.com</a>
+        </div>
+        <!-- Copyright -->
+    </footer>
+    <!-- Bootstrap JavaScript  -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+        crossorigin="anonymous"></script>
+
+
+</body>
+
+</html>
