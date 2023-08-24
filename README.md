@@ -45,5 +45,8 @@ The client module provides a user interface for agencies/organizations requestin
 The use of federated digital identity has the potential to improve the security, privacy, and interoperability of digital identity systems. The FDI application simplifies the authentication process, eliminating the need for users to remember multiple IDs for different platforms. This streamlines paperwork, saves time, and reduces energy consumption.
 
 ## 10.Installation:
-clone this project in directory and run the index.html after signup and signin go to Dashboard after before Filling user details run the app.py code and fill the user details  along with valid documents such has aadhar ,padncard and voter id submit details you will get a FDI id that is Unique generated . Example  That FDI id we using in Account open in the Bank pupose IN this project another Folder Cline  
+Clone this project : in directory and run the index.html after signup and signin go to Dashboard after before Filling user details run the app.py code and fill the user details  along with valid documents such has aadhar ,padncard and voter id submit details you will get a FDI id that is Unique generated . Example  That FDI id we using in Account open in the Bank pupose IN this project another Folder is ClientSide folder run the index.html and opt.py after just enter a FDI ID in the text form after that user registerd mobile recevie a opt confimation after submiting valid otp that banker recevied a USer details along with Documents for opening a account. 
+
+Tools and program Language :Python , Flask ,SHA-256 algm(Generating Unique ID), HTML,CSS,JavaScript, jquery,Ajax, DataBase: Firebase and twillo otp varification
+
 
