@@ -1,6 +1,8 @@
 # Federated_Digital_Id
 # Federated Digital Identity (FDI) System
 
+## Paper Publish: https://www.ijnrd.org/viewpaperforall?paper=IJNRD2305521
+
 ## 1. Introduction
 In India, there is currently no universally accepted National ID system. This project aims to address that by providing a unique FDI ID to each individual that can be universally accepted. The objective is to streamline identification processes, reduce duplication of IDs, and enhance document security.
 
